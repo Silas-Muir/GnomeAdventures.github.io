@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mythical Fellows Survey</title>
+  <title>Gnome Adventures Survey</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -129,7 +129,7 @@
           <input type="radio" name="movingGnome" value="yes" required /> Yes
         </label>
         <label>
-          <input type="radio" name="movingGnome" value="no" required /> No
+          <input type="radio" name="movingGnome" value="no" required checked /> No
         </label>
       </div>
 
@@ -226,6 +226,9 @@
       });
     });
 
+    // Trigger default selection behavior on page load
+    document.querySelector('input[name="movingGnome"]:checked').dispatchEvent(new Event('change'));
+
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
@@ -248,21 +251,4 @@
         formData.append('photo', photo);
       }
 
-      fetch('https://script.google.com/macros/s/AKfycbwRTeU88k2PbVXYaSzXdW3Q_mF9Y_3CnOik9V5o5S_1wfAnL-7YYJOf_wczyABA8AZm/exec', {
-        method: 'POST',
-        body: formData
-      })
-        .then((response) => response.text())
-        .then((result) => {
-          formContainer.classList.remove('active');
-          thankYouContainer.classList.add('active');
-        })
-        .catch((error) => {
-          console.error('Error!', error.message);
-          alert('Something went wrong. Please try again.');
-        });
-    });
-  </script>
-
-</body>
-</html>
+      fetch('https://script.google.com/macros/s/AKfycbwRTeU88k2PbVXYa
