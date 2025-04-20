@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -251,4 +251,21 @@
         formData.append('photo', photo);
       }
 
-      fetch('https://script.google.com/macros/s/AKfycbwRTeU88k2PbVXYa
+      fetch('https://script.google.com/macros/s/AKfycbwRTeU88k2PbVXYaSzXdW3Q_mF9Y_3CnOik9V5o5S_1wfAnL-7YYJOf_wczyABA8AZm/exec', {
+        method: 'POST',
+        body: formData
+      })
+        .then((response) => response.text())
+        .then((result) => {
+          formContainer.classList.remove('active');
+          thankYouContainer.classList.add('active');
+        })
+        .catch((error) => {
+          console.error('Error!', error.message);
+          alert('Something went wrong. Please try again.');
+        });
+    });
+  </script>
+
+</body>
+</html>
