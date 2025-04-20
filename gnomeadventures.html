@@ -1,19 +1,21 @@
+<html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mythical Fellows Survey</title>
+  <title>Gnome Adventures Survey</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f0f4f8;
       color: #333;
       margin: 0;
-      padding: 0;
+      padding: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      box-sizing: border-box;
     }
 
     .form-container, .thank-you-container {
@@ -22,12 +24,13 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       padding: 30px;
       width: 100%;
-      max-width: 600px;
+      max-width: 420px;
       display: none;
+      flex-direction: column;
     }
 
     .form-container.active, .thank-you-container.active {
-      display: block;
+      display: flex;
     }
 
     h2 {
@@ -58,7 +61,8 @@
 
     input[type="text"],
     textarea,
-    input[type="file"] {
+    input[type="file"],
+    select {
       font-size: 1rem;
       padding: 10px;
       border-radius: 4px;
@@ -106,18 +110,6 @@
 
     .location-button:hover {
       background-color: #0b7dda;
-    }
-
-    .take-photo-button {
-      background-color: #FF9800;
-      font-size: 0.85rem;
-      padding: 6px 12px;
-      margin: 5px 0 15px 0;
-      align-self: flex-start;
-    }
-
-    .take-photo-button:hover {
-      background-color: #fb8c00;
     }
   </style>
 </head>
@@ -172,8 +164,6 @@
 
         <label for="photo">Upload a photo of the gnome’s new hiding spot:</label>
         <input type="file" id="photo" name="photo" accept="image/*" required />
-
-        <button type="button" class="take-photo-button" onclick="takePhoto()">Take Photo</button>
       </div>
 
       <button type="submit">Submit</button>
@@ -275,3 +265,4 @@
 
 </body>
 </html>
+
