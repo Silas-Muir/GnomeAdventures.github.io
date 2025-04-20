@@ -1,0 +1,277 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mythical Fellows Survey</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container, .thank-you-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      display: none;
+    }
+
+    .form-container.active, .thank-you-container.active {
+      display: block;
+    }
+
+    h2 {
+      color: #4CAF50;
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      color: #555;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    #movingFields {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .location-button {
+      background-color: #2196F3;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      margin: 5px 0 15px 0;
+      align-self: flex-start;
+    }
+
+    .location-button:hover {
+      background-color: #0b7dda;
+    }
+
+    .take-photo-button {
+      background-color: #FF9800;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      margin: 5px 0 15px 0;
+      align-self: flex-start;
+    }
+
+    .take-photo-button:hover {
+      background-color: #fb8c00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container active" id="formContainer">
+    <h2>Gnome Adventures Survey</h2>
+    <p class="description">
+      Congratulations! You have found one of our gnomes! These gnomes have been hidden all around the PNW for you to find and interact with.
+    </p>
+
+    <form id="gnomeForm" enctype="multipart/form-data">
+      <label>Are you moving the gnome?</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="movingGnome" value="yes" required /> Yes
+        </label>
+        <label>
+          <input type="radio" name="movingGnome" value="no" required /> No
+        </label>
+      </div>
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="hatColor">What color is the gnome's hat?</label>
+      <select id="hatColor" name="hatColor" required>
+        <option value="Red">Red</option>
+        <option value="Green">Green</option>
+        <option value="Blue">Blue</option>
+        <option value="Yellow">Yellow</option>
+        <option value="Purple">Purple</option>
+        <option value="Orange">Orange</option>
+        <option value="Pink">Pink</option>
+        <option value="Brown">Brown</option>
+        <option value="Black">Black</option>
+        <option value="White">White</option>
+        <option value="Gray">Gray</option>
+        <option value="Beige">Beige</option>
+      </select>
+
+      <div id="movingFields">
+        <label for="locationFound">Where did you find the gnome? (short description)</label>
+        <textarea id="locationFound" name="locationFound" rows="3" required></textarea>
+
+        <label for="locationPlaced">Where did you put the gnome? (short description)</label>
+        <textarea id="locationPlaced" name="locationPlaced" rows="3" required></textarea>
+
+        <label for="coordinates">What are the gnome’s new coordinates?</label>
+        <input type="text" id="coordinates" name="coordinates" placeholder="e.g. 47.6062, -122.3321" required />
+        <button type="button" class="location-button" onclick="getLocation()">Use my location</button>
+
+        <label for="photo">Upload a photo of the gnome’s new hiding spot:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required />
+
+        <button type="button" class="take-photo-button" onclick="takePhoto()">Take Photo</button>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div class="thank-you-container" id="thankYouContainer">
+    <h2>Thank You!</h2>
+    <p>
+      Thank you for moving our gnome! You may now proceed to our website
+      <a href="https://sites.google.com/frogrock.org/gnomeadventures" target="_blank">here</a>.
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById('gnomeForm');
+    const formContainer = document.getElementById('formContainer');
+    const thankYouContainer = document.getElementById('thankYouContainer');
+    const movingFieldsDiv = document.getElementById('movingFields');
+
+    const conditionalFields = [
+      document.getElementById('locationFound'),
+      document.getElementById('locationPlaced'),
+      document.getElementById('coordinates'),
+      document.getElementById('photo')
+    ];
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          document.getElementById('coordinates').value = lat + ', ' + lon;
+        }, function (error) {
+          alert("Geolocation failed: " + error.message);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    document.querySelectorAll('input[name="movingGnome"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const isMoving = document.querySelector('input[name="movingGnome"]:checked').value === 'yes';
+
+        if (isMoving) {
+          movingFieldsDiv.style.display = 'flex';
+          conditionalFields.forEach(field => {
+            field.setAttribute('required', 'required');
+          });
+        } else {
+          movingFieldsDiv.style.display = 'none';
+          conditionalFields.forEach(field => {
+            field.removeAttribute('required');
+            if (field.type === "file") field.value = null;
+            else field.value = '';
+          });
+        }
+      });
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const movingGnome = document.querySelector('input[name="movingGnome"]:checked').value;
+      const name = document.getElementById('name').value.trim();
+      const found = document.getElementById('locationFound').value.trim();
+      const placed = document.getElementById('locationPlaced').value.trim();
+      const coords = document.getElementById('coordinates').value.trim();
+      const photo = document.getElementById('photo').files[0];
+      const hatColor = document.getElementById('hatColor').value.trim();
+
+      const formData = new FormData();
+      formData.append('movingGnome', movingGnome);
+      formData.append('name', name);
+      formData.append('locationFound', found);
+      formData.append('locationPlaced', placed);
+      formData.append('coordinates', coords);
+      formData.append('hatColor', hatColor);
+      if (photo) {
+        formData.append('photo', photo);
+      }
+
+      fetch('https://script.google.com/macros/s/AKfycbwRTeU88k2PbVXYaSzXdW3Q_mF9Y_3CnOik9V5o5S_1wfAnL-7YYJOf_wczyABA8AZm/exec', {
+        method: 'POST',
+        body: formData
+      })
+        .then((response) => response.text())
+        .then((result) => {
+          formContainer.classList.remove('active');
+          thankYouContainer.classList.add('active');
+        })
+        .catch((error) => {
+          console.error('Error!', error.message);
+          alert('Something went wrong. Please try again.');
+        });
+    });
+  </script>
+
+</body>
+</html>
