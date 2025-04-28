@@ -110,6 +110,12 @@
       background-color: #0b7dda;
     }
 
+    /* Ensure title and description are always visible */
+    .form-container h2,
+    .form-container .description {
+      display: block !important;
+    }
+
     /* Loading overlay styles */
     .loading-overlay {
       position: fixed;
@@ -287,6 +293,14 @@
 
     function toggleMovingFields(show) {
       movingFieldsDiv.style.display = show ? 'flex' : 'none';
+
+      // Ensure title and description are visible
+      document.querySelector('#formContainer h2').style.display = 'block';
+      document.querySelector('#formContainer .description').style.display = 'block';
+
+      // Instantly scroll to top of the form
+      formContainer.scrollIntoView({ behavior: 'auto', block: 'start' });
+
       conditionalFields.forEach(field => {
         if (show) {
           field.setAttribute('required', 'required');
