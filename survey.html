@@ -110,13 +110,6 @@
       background-color: #0b7dda;
     }
 
-    /* Ensure title and description are always visible */
-    .form-container h2,
-    .form-container .description {
-      display: block !important;
-    }
-
-    /* Loading overlay styles */
     .loading-overlay {
       position: fixed;
       top: 0;
@@ -210,21 +203,20 @@
 
       <div id="movingFields">
         <label for="locationFound">Where did you find the gnome?</label>
-        <textarea id="locationFound" name="locationFound" rows="3" required aria-required="true"></textarea>
+        <textarea id="locationFound" name="locationFound" rows="3"></textarea>
 
         <label for="locationPlaced">Where did you put the gnome?</label>
-        <textarea id="locationPlaced" name="locationPlaced" rows="3" required aria-required="true"></textarea>
+        <textarea id="locationPlaced" name="locationPlaced" rows="3"></textarea>
 
         <label for="coordinates">What are the gnome’s new coordinates?</label>
         <input type="text" id="coordinates" name="coordinates"
           placeholder="e.g. 47.6062, -122.3321"
           pattern="^-?\d{1,2}\.\d+,\s?-?\d{1,3}\.\d+$"
-          title="Please enter valid latitude and longitude, e.g., 47.6062, -122.3321"
-          required aria-required="true" />
+          title="Please enter valid latitude and longitude, e.g., 47.6062, -122.3321" />
         <button type="button" class="location-button" onclick="getLocation()">Use my location</button>
 
         <label for="photo">Upload a photo of the gnome’s new hiding spot:</label>
-        <input type="file" id="photo" name="photo" accept="image/*" required aria-required="true" />
+        <input type="file" id="photo" name="photo" accept="image/*" />
       </div>
 
       <p style="font-size: 0.9rem; color: #888; text-align: center; margin-bottom: 10px;">
@@ -243,7 +235,6 @@
     </p>
   </div>
 
-  <!-- Loading overlay -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loader"></div>
     <div class="loading-message">Loading...</div>
@@ -279,7 +270,7 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const isMoving = document.querySelector('input[name="movingGnome"]:checked').value === 'yes';
       toggleMovingFields(isMoving);
     });
@@ -293,13 +284,6 @@
 
     function toggleMovingFields(show) {
       movingFieldsDiv.style.display = show ? 'flex' : 'none';
-
-      // Ensure title and description are visible
-      document.querySelector('#formContainer h2').style.display = 'block';
-      document.querySelector('#formContainer .description').style.display = 'block';
-
-      // Instantly scroll to top of the form
-      formContainer.scrollIntoView({ behavior: 'auto', block: 'start' });
 
       conditionalFields.forEach(field => {
         if (show) {
@@ -330,6 +314,7 @@
           loadingOverlay.classList.remove('active');
           formContainer.classList.remove('active');
           thankYouContainer.classList.add('active');
+          form.reset();
         })
         .catch((error) => {
           console.error('Error!', error.message);
